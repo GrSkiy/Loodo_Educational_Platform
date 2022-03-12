@@ -1,12 +1,17 @@
 import * as Tone from "tone";
+// import * as melodySynth from '../tunes/melody_synth'
+// import * as bassSynth from '../tunes/bass_synth'
+// import * as spaceSynth from '../tunes/space_synth'
+// import * as allEffectsSynth from '../tunes/all_effects_synth'
+import * as drumSampler from "../tunes/drum_sampler";
+import * as sequencedSynth from "../tunes/sequenced_synth";
+
 import React, { PureComponent } from "react";
-import Button from "../control_components/Button";
-// import { ReactComponent as PlayButton } from "../../assets/images/play_button.svg";
 
 import WelcomeScreen from "../views/WelcomeScreen";
-import SequencerRoom from "../views/SequencerRoom";
+import SequencerModule from "../views/SequencerModule";
 
-export default class TrigerContainer extends PureComponent {
+export default class SequencerContainer extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -25,39 +30,77 @@ export default class TrigerContainer extends PureComponent {
     });
   };
 
-  generateUniqId = () => {
-    return Math.floor(Math.random() * Date.now());
+  initInstruments = () => {
+    Tone.Transport.bpm.value = 120;
+    Tone.Transport.start();
+
+    console.log();
+
+    // melodySynth.part.start()
+    // bassSynth.sequention.start(0)
+    // spaceSynth.sequention.start(0)
+
+    // const sequention = allEffectsSynth.sequentions[0]().start(0)
+    // allEffectsSynth.sequentions[0].start(0)
+
+    // const sequention = drumSampler.part.start()
+
+    const instruments = [
+      // melodySynth.instrument,
+      // bassSynth.instrument
+      // spaceSynth.instrument
+      // allEffectsSynth.instrument
+      // drumSampler.instrument,
+      sequencedSynth.instrument,
+    ];
+
+    this.setState({ instruments });
   };
 
   handlePropertyValueChange = (id, property, value) => {
-    // Звук лагает при изменении параметров
-    // const { instruments } = this.state
-    //
-    // instruments.forEach((instrument, i) => {
-    //   if (instrument.id === id) {
-    //     const propertyLevel1 = property[0]
-    //     instrument.settings[propertyLevel1] = value
-    //   }
-    //
-    //   instruments.push(instrument)
-    // })
-
-    // Иммутабельный способ, звук не лагает
+    console.log(property, value);
     const instruments = [];
 
     this.state.instruments.forEach((instrument, i) => {
-      const newInstrument = Object.assign({}, instrument);
+      const newInstrument = [];
 
-      if (instrument.id === id) {
-        if (property.length === 1) {
-          const propertyName = property[0];
-          newInstrument.settings[propertyName] = value;
-        } else if (property.length === 2) {
-          const scopeName = property[0];
-          const propertyName = property[1];
-          newInstrument.settings[scopeName][propertyName] = value;
+      instrument.forEach((instrumentModule, i) => {
+        const newInstrumentModule = Object.assign({}, instrumentModule);
+
+        if (instrumentModule.id === id) {
+          if (property.length === 1) {
+            const propertyName = property[0];
+            newInstrumentModule.settings[propertyName] = value;
+          } else if (property.length === 2) {
+            const scopeName = property[0];
+            const propertyName = property[1];
+            newInstrumentModule.settings[scopeName][propertyName] = value;
+          } else if (property.length === 3) {
+            let searchedEvent;
+
+            newInstrumentModule.settings.sequence.forEach((event, i) => {
+              if (
+                event.noteName === property[0] &&
+                event.time === property[1]
+              ) {
+                searchedEvent = event;
+                newInstrumentModule.settings.sequence.splice(i, 1);
+              }
+            });
+
+            if (searchedEvent === undefined) {
+              newInstrumentModule.settings.sequence.push({
+                time: property[1],
+                noteName: property[0],
+                duration: "1n",
+                velocity: 1,
+              });
+            }
+          }
         }
-      }
+
+        newInstrument.push(newInstrumentModule);
+      });
 
       instruments.push(newInstrument);
     });
@@ -67,103 +110,17 @@ export default class TrigerContainer extends PureComponent {
     });
   };
 
-  initInstruments = () => {
-    const melodySynthSettings = {
-      volume: 0.8,
-      detune: 0,
-      portamento: 0.05,
-      envelope: {
-        attack: 0.05,
-        attackCurve: "exponential",
-        decay: 0.2,
-        decayCurve: "exponential",
-        sustain: 0.2,
-        release: 1.5,
-        releaseCurve: "exponential",
-      },
-      oscillator: {
-        type: "amtriangle",
-        modulationType: "sine",
-        // partialCount: 0,
-        // partials: [],
-        phase: 0,
-        harmonicity: 0.5,
-      },
-    };
-
-    const melodySynthNode1 = new Tone.Synth(
-      melodySynthSettings
-    ).toDestination();
-    const melodySynthNode2 = new Tone.Synth(
-      melodySynthSettings
-    ).toDestination();
-
-    // melodySynthNode.triggerAttackRelease("C4", "8n");
-
-    let a = 1;
-
-    const instruments = [
-      {
-        id: this.generateUniqId(),
-        name: "Melody Synth",
-        type: "ToneSynth",
-        node: melodySynthNode1,
-        settings: melodySynthSettings,
-      },
-      {
-        id: this.generateUniqId(),
-        name: "Melody Synth",
-        type: "ToneSynth",
-        node: melodySynthNode2,
-        settings: melodySynthSettings,
-      },
-    ];
-
-    // console.log(instruments);
-
-    // prettier-ignore
-    // const seq = new Tone.Sequence(
-    //   (time, note) => {
-    //     melodySynthNode.triggerAttackRelease(note, 0.8, time)
-    //   },
-    //   [
-    //     'C4', 'E4', 'G4', 'C4', 'E4', 'G4', 'C4', 'E4', 'G4', 'C4', 'E4', 'G4',
-    //     'E4', 'G4', 'B3', 'E4', 'G4', 'B3', 'E4', 'G4', 'B3', 'E4', 'G4', 'B3'
-    //   ]
-    // ).start(0)
-    //
-    // Tone.Transport.start();
-
-    this.setState({
-      instruments
-    });
-  };
-
-  checkState = () => {
-    console.log(this.state);
-  };
-
   renderWelcomeScreen = () => {
     return <WelcomeScreen handleStartWebAudio={this.startWebAudio} />;
   };
 
-  playNote = (synth, note, dur) => {
-    console.log(synth);
-    console.log(note);
-    console.log(dur);
-    synth.triggerAttackRelease(note, dur);
-  };
-
-  renderRoom = () => {
+  renderSynthRoom = () => {
     const { instruments } = this.state;
 
     return (
-      <SequencerRoom
+      <SequencerModule
         instruments={instruments}
         handlePropertyValueChange={this.handlePropertyValueChange}
-        handleCheckState={this.checkState}
-        handleInitInstruments={this.initInstruments}
-        handlePlayNote={this.playNote}
       />
     );
   };
@@ -174,7 +131,7 @@ export default class TrigerContainer extends PureComponent {
     return (
       <div className="SynthContainer">
         {webAudioStarted === true
-          ? this.renderRoom()
+          ? this.renderSynthRoom()
           : this.renderWelcomeScreen()}
       </div>
     );

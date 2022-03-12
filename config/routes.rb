@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '3', to: 'third_module#index'
   get '4', to: 'fourth_module#index'
   get '5', to: 'fifth_module#index'
+  get '6', to: 'sixth_module#index'
 
   root 'first_module#index'
 
