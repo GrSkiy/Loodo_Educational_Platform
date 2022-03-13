@@ -11,7 +11,7 @@ import React, { PureComponent } from "react";
 import WelcomeScreen from "../views/WelcomeScreen";
 import SequencerModule from "../views/SequencerModule";
 
-export default class SequencerContainer extends PureComponent {
+export default class SecuencerContainer extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -34,8 +34,6 @@ export default class SequencerContainer extends PureComponent {
     Tone.Transport.bpm.value = 120;
     Tone.Transport.start();
 
-    console.log();
-
     // melodySynth.part.start()
     // bassSynth.sequention.start(0)
     // spaceSynth.sequention.start(0)
@@ -50,7 +48,7 @@ export default class SequencerContainer extends PureComponent {
       // bassSynth.instrument
       // spaceSynth.instrument
       // allEffectsSynth.instrument
-      // drumSampler.instrument,
+      drumSampler.instrument,
       sequencedSynth.instrument,
     ];
 

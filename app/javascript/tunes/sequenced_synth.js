@@ -24,43 +24,43 @@ const synthSettings = {
   },
 };
 
-const chorusSettings = {
-  wet: 0,
-  type: "sine",
-  frequency: 1.5,
-  delayTime: 3.5,
-  depth: 0.7,
-  spread: 180,
-};
-
-const freeverbSettings = {
-  wet: 0.55,
-  roomSize: 0.23,
-  dampening: 40,
-};
-
-const pingPongDelaySettings = {
-  wet: 0,
-  delayTime: 0.25,
-  maxDelayTime: 1,
-};
-
-const tremoloSettings = {
-  wet: 0,
-  frequency: 10,
-  type: "sine",
-  depth: 0.5,
-  spread: 180,
-};
-
-const vibratoSettings = {
-  wet: 0,
-  maxDelay: 0.005,
-  frequency: 5,
-  depth: 0.1,
-  type: "sine",
-};
-
+// const chorusSettings = {
+//   wet: 0,
+//   type: 'sine',
+//   frequency: 1.5,
+//   delayTime: 3.5,
+//   depth: 0.7,
+//   spread: 180
+// }
+//
+// const freeverbSettings = {
+//   wet: 0.55,
+//   roomSize: 0.23,
+//   dampening: 40
+// }
+//
+// const pingPongDelaySettings = {
+//   wet: 0,
+//   delayTime: 0.25,
+//   maxDelayTime: 1
+// }
+//
+// const tremoloSettings = {
+//   wet: 0,
+//   frequency: 10,
+//   type: 'sine',
+//   depth: 0.5,
+//   spread: 180
+// }
+//
+// const vibratoSettings = {
+//   wet: 0,
+//   maxDelay: 0.005,
+//   frequency: 5,
+//   depth: 0.1,
+//   type: 'sine'
+// }
+//
 const channelSettings = {
   volume: -14,
   pan: 0,
@@ -69,16 +69,21 @@ const channelSettings = {
 };
 
 const synthNode = new Tone.Synth(synthSettings);
+// const chorusNode = new Tone.Chorus(chorusSettings).start()
+// const freeverbNode = new Tone.Freeverb(freeverbSettings)
+// const pingPongDelayNode = new Tone.PingPongDelay(pingPongDelaySettings)
+// const tremoloNode = new Tone.Tremolo(tremoloSettings)
+// const vibratoNode = new Tone.Vibrato(vibratoSettings)
 const channelNode = new Tone.Channel(channelSettings).toDestination();
 
-// synthNode.chain(
-//   chorusNode,
-//   freeverbNode,
-//   pingPongDelayNode,
-//   tremoloNode,
-//   vibratoNode,
-//   channelNode
-// );
+synthNode.chain(
+  // chorusNode,
+  // freeverbNode,
+  // pingPongDelayNode,
+  // tremoloNode,
+  // vibratoNode,
+  channelNode
+);
 
 const v = 1;
 
