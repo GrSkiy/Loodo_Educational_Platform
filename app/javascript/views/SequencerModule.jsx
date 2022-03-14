@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { PureComponent } from "react";
 
 import Button from "../control_components/Button";
+import ToggleButton from "../control_components/ToggleButton";
 
 import ToneSynth from "../module_components/ToneSynth";
 import Sampler from "../module_components/Sampler";
@@ -70,8 +71,6 @@ export default class SequencerModule extends PureComponent {
           Channel: Channel,
         };
 
-        console.log(type);
-
         const ComponentType = components[type];
 
         instrumentModuleElements.push(
@@ -93,7 +92,23 @@ export default class SequencerModule extends PureComponent {
       );
     });
 
-    return <div className="SynthRoom">{instrumentElements}</div>;
+    return (
+      <div>
+        <div className="moduleHeaderButton">
+          <div className="headerButton">
+            <ToggleButton
+              className="trigerButton"
+              text="Start"
+              handleClick={this.props.handlePlaySequence}
+            />
+          </div>
+          <span>Мелодия</span>
+        </div>
+        <div className="SequencerModule">{instrumentElements}</div>
+        <div>стрелка</div>
+        <div className="moduleHeaderText">Синтезатор</div>
+      </div>
+    );
   }
 }
 

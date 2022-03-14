@@ -89,32 +89,35 @@ const v = 1;
 
 // prettier-ignore
 const partSettings = {
+  // scale: [
+  //   'A1','C1','D1','E1', 'G1',
+  //   'A2','C2','D2','E2','G2',
+  //   'A3','C3','D3','E3','G3',
+  //   'A4','C4','D4','E4','G4',
+  //   'A5','C5','D5','E5','G5',
+  //   'A6','C6','D6','E6','G6',
+  //   'A7','C7','D7','E7','G7',
+  //   'A8','C8','D8','E8','G8'
+  // ],
   scale: [
-    'A1','C1','D1','E1', 'G1',
-    'A2','C2','D2','E2','G2',
-    'A3','C3','D3','E3','G3',
-    'A4','C4','D4','E4','G4',
-    'A5','C5','D5','E5','G5',
-    'A6','C6','D6','E6','G6',
-    'A7','C7','D7','E7','G7',
-    'A8','C8','D8','E8','G8'
+    'C3', 'B3', 'A3', 'G3', 'F3', 'E3', 'D3','C4',
   ],
   sequence: [
     {
       time: '0:0:0',
-      noteName: 'C4',
+      noteName: 'C3',
       duration: '1n',
       velocity: v
     },
     {
       time: '0:1:0',
-      noteName: 'A4',
+      noteName: 'A3',
       duration: '1n',
       velocity: v
     },
     {
       time: '0:2:0',
-      noteName: 'A4',
+      noteName: 'F4',
       duration: '1n',
       velocity: v
     }

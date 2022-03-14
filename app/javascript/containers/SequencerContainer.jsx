@@ -30,9 +30,16 @@ export default class SecuencerContainer extends PureComponent {
     });
   };
 
+  playSequence = (isPressed) => {
+    if (isPressed) {
+      Tone.Transport.start();
+    } else {
+      Tone.Transport.stop();
+    }
+  };
+
   initInstruments = () => {
     Tone.Transport.bpm.value = 120;
-    Tone.Transport.start();
 
     // melodySynth.part.start()
     // bassSynth.sequention.start(0)
@@ -44,11 +51,12 @@ export default class SecuencerContainer extends PureComponent {
     // const sequention = drumSampler.part.start()
 
     const instruments = [
+      // toneMelodyEffectSynth.instrument,
       // melodySynth.instrument,
       // bassSynth.instrument
       // spaceSynth.instrument
       // allEffectsSynth.instrument
-      drumSampler.instrument,
+      // drumSampler.instrument,
       sequencedSynth.instrument,
     ];
 
@@ -119,6 +127,7 @@ export default class SecuencerContainer extends PureComponent {
       <SequencerModule
         instruments={instruments}
         handlePropertyValueChange={this.handlePropertyValueChange}
+        handlePlaySequence={this.playSequence}
       />
     );
   };
@@ -127,7 +136,7 @@ export default class SecuencerContainer extends PureComponent {
     const { webAudioStarted } = this.state;
 
     return (
-      <div className="SynthContainer">
+      <div className="SequencerContainer">
         {webAudioStarted === true
           ? this.renderSynthRoom()
           : this.renderWelcomeScreen()}

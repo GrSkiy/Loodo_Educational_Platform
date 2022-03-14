@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import React, { PureComponent } from "react";
 
-import ToneMelodySynth from "../module_components/ToneMelodySynth";
-import ChorusEffect from "../module_components/ChorusEffect";
+import ToneMelodyEffectSynth from "../module_components/ToneMelodyEffectSynth";
+import Channel from "../module_components/Channel";
 
 export default class MelodySynthEffectModule extends PureComponent {
   constructor(props) {
@@ -14,39 +14,35 @@ export default class MelodySynthEffectModule extends PureComponent {
     const instrumentElements = [];
 
     instruments.forEach((instrument, i) => {
-      const { id, name, type, node, settings } = instrument;
-      let instrumentElement;
+      const instrumentModuleElements = [];
 
-      switch (type) {
-        case "ToneSynth":
-          instrumentElement = (
-            <ToneMelodySynth
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              handlePlaySequence={this.props.handlePlaySequence}
-              handlePlayNote={this.props.handlePlayNote}
-              key={i}
-            />
-          );
-        case "Chorus":
-          instrumentElement = (
-            <ChorusEffect
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          );
+      instrument.forEach((instrumentModule, i) => {
+        const { id, name, type, node, settings } = instrumentModule;
 
-          break;
-      }
+        const components = {
+          ToneMelodyEffectSynth: ToneMelodyEffectSynth,
+          Channel: Channel,
+        };
 
-      instrumentElements.push(instrumentElement);
+        const ComponentType = components[type];
+
+        instrumentModuleElements.push(
+          <ComponentType
+            id={id}
+            name={name}
+            node={node}
+            settings={settings}
+            handlePropertyValueChange={handlePropertyValueChange}
+            key={i}
+          />
+        );
+      });
+
+      instrumentElements.push(
+        <div className="Row" key={i}>
+          {instrumentModuleElements}
+        </div>
+      );
     });
 
     return <div className="SynthRoom">{instrumentElements}</div>;
@@ -54,6 +50,6 @@ export default class MelodySynthEffectModule extends PureComponent {
 }
 
 MelodySynthEffectModule.propTypes = {
-  // instruments: PropTypes.array.isRequired,
-  // handlePropertyValueChange: PropTypes.func.isRequired,
+  instruments: PropTypes.array.isRequired,
+  handlePropertyValueChange: PropTypes.func.isRequired,
 };

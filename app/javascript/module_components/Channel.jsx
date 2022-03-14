@@ -1,43 +1,43 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 
-import Slider from '../control_components/Slider'
-import Knob from '../control_components/Knob'
-import ToggleButton from '../control_components/ToggleButton'
+import Slider from "../control_components/Slider";
+import Knob from "../control_components/Knob";
+import ToggleButton from "../control_components/ToggleButton";
 
 export default class Channel extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   updateNodeParams = () => {
-    const { node, settings } = this.props
-    const { volume, pan, mute, solo } = settings
+    const { node, settings } = this.props;
+    const { volume, pan, mute, solo } = settings;
 
-    node.volume.value = volume
-    node.pan.value = pan
-    node.mute = mute
-    node.solo = solo
-  }
+    node.volume.value = volume;
+    node.pan.value = pan;
+    node.mute = mute;
+    node.solo = solo;
+  };
 
   handlePropertyValueChange = (property, value) => {
-    const { id, handlePropertyValueChange } = this.props
-    handlePropertyValueChange(id, property, value)
-  }
+    const { id, handlePropertyValueChange } = this.props;
+    handlePropertyValueChange(id, property, value);
+  };
 
   render() {
-    const { id, name, settings } = this.props
-    const { volume, pan, mute, solo } = settings
+    const { id, name, settings } = this.props;
+    const { volume, pan, mute, solo } = settings;
 
-    this.updateNodeParams()
+    this.updateNodeParams();
 
     return (
-      <div className="ChorusEffect">
+      <div className="Channel">
         <h1>{name}</h1>
 
         <Slider
           name="Volume"
-          property={['volume']}
+          property={["volume"]}
           min={-80}
           max={6}
           step={0.01}
@@ -47,7 +47,7 @@ export default class Channel extends Component {
 
         <Knob
           name="Pan"
-          property={['pan']}
+          property={["pan"]}
           min={-1}
           max={1}
           value={pan}
@@ -57,16 +57,16 @@ export default class Channel extends Component {
         <ToggleButton
           text="Mute"
           isOn={mute}
-          handleClick={() => this.handlePropertyValueChange(['mute'], !mute)}
+          handleClick={() => this.handlePropertyValueChange(["mute"], !mute)}
         />
 
         <ToggleButton
           text="Solo"
           isOn={solo}
-          handleClick={() => this.handlePropertyValueChange(['solo'], !solo)}
+          handleClick={() => this.handlePropertyValueChange(["solo"], !solo)}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -75,5 +75,5 @@ Channel.propTypes = {
   name: PropTypes.string.isRequired,
   node: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  handlePropertyValueChange: PropTypes.func.isRequired
-}
+  handlePropertyValueChange: PropTypes.func.isRequired,
+};
